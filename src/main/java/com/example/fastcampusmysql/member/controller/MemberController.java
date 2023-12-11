@@ -1,5 +1,6 @@
 package com.example.fastcampusmysql.member.controller;
 
+import com.example.fastcampusmysql.member.dto.MemberDto;
 import com.example.fastcampusmysql.member.dto.RegisterMemberCommand;
 import com.example.fastcampusmysql.member.entity.Member;
 import com.example.fastcampusmysql.member.service.MemberReadService;
@@ -19,12 +20,13 @@ public class MemberController {
     private final MemberReadService memberReadService;
 
     @PostMapping("/members")
-    public Member register(@RequestBody RegisterMemberCommand command) {
-        return memberWriteService.create(command);
+    public MemberDto register(@RequestBody RegisterMemberCommand command) {
+        Member member = memberWriteService.register(command);
+        return memberReadService.toDto(member);
     }
 
     @GetMapping("/members/{id}")
-    public Member getMember(@PathVariable Long id) {
+    public MemberDto getMember(@PathVariable Long id) {
         return memberReadService.getMember(id);
     }
 }
